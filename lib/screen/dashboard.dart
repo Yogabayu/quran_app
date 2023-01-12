@@ -270,7 +270,9 @@ Widget leftUp(width, height) {
             margin: EdgeInsets.only(left: width * 0.03),
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {},
+              onPressed: () {
+                print("object");
+              },
               child: Text(
                 "Baca >",
                 style: TextStyle(
