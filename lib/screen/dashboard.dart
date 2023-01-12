@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quran_app/screen/allsurah.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -271,7 +273,7 @@ Widget leftUp(width, height) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                print("object");
+                Get.offAll(() => Allsurah());
               },
               child: Text(
                 "Baca >",
