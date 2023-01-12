@@ -29,246 +29,10 @@ class _DashboardState extends State<Dashboard> {
             height: height * 0.5,
             child: Stack(
               children: [
-                Positioned(
-                  left: width * 0.005,
-                  child: Container(
-                    padding: EdgeInsets.only(top: width * 0.04),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(255, 136, 180, 221),
-                          Color.fromARGB(255, 55, 109, 170),
-                        ],
-                      ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width * 0.07)),
-                    ),
-                    width: width * 0.35,
-                    height: height * 0.27,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          'assets/surah.png',
-                          height: height * 0.08,
-                          width: width * 0.2,
-                        ),
-                        SizedBox(
-                          height: width * 0.15,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.05),
-                          child: Text(
-                            "Quran",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.03),
-                          child: TextButton(
-                            style:
-                                TextButton.styleFrom(padding: EdgeInsets.zero),
-                            onPressed: () {},
-                            child: Text(
-                              "Baca >",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 201, 241, 56),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: width * 0.005,
-                  child: Container(
-                    padding: EdgeInsets.only(top: width * 0.04),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(255, 136, 180, 221),
-                          Color.fromARGB(255, 55, 109, 170),
-                        ],
-                      ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width * 0.07)),
-                    ),
-                    width: width * 0.35,
-                    height: height * 0.2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          'assets/bulanbintang.png',
-                          height: height * 0.06,
-                          width: width * 0.2,
-                        ),
-                        SizedBox(
-                          height: width * 0.05,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.05),
-                          child: Text(
-                            "Quran",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.03),
-                          child: TextButton(
-                            style:
-                                TextButton.styleFrom(padding: EdgeInsets.zero),
-                            onPressed: () {},
-                            child: Text(
-                              "Baca >",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 201, 241, 56),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: width * 0.005,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(255, 136, 180, 221),
-                          Color.fromARGB(255, 55, 109, 170),
-                        ],
-                      ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width * 0.07)),
-                    ),
-                    width: width * 0.35,
-                    height: height * 0.27,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: width * 0.02, top: width * 0.03),
-                          child: Icon(
-                            Icons.bookmark_add,
-                            color: Colors.white,
-                            size: width * 0.14,
-                          ),
-                        ),
-                        SizedBox(
-                          height: width * 0.15,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.05),
-                          child: Text(
-                            "Quran",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.03),
-                          child: TextButton(
-                            style:
-                                TextButton.styleFrom(padding: EdgeInsets.zero),
-                            onPressed: () {},
-                            child: Text(
-                              "Baca >",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 201, 241, 56),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: width * 0.005,
-                  child: Container(
-                    padding: EdgeInsets.only(top: width * 0.04),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color.fromARGB(255, 136, 180, 221),
-                          Color.fromARGB(255, 55, 109, 170),
-                        ],
-                      ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(width * 0.07)),
-                    ),
-                    width: width * 0.35,
-                    height: height * 0.2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.03),
-                          child: Image.asset(
-                            'assets/tajwid.png',
-                            height: height * 0.05,
-                            width: width * 0.2,
-                          ),
-                        ),
-                        SizedBox(
-                          height: width * 0.05,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.05),
-                          child: Text(
-                            "Tajwid list",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: width * 0.04),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: width * 0.03),
-                          child: TextButton(
-                            style:
-                                TextButton.styleFrom(padding: EdgeInsets.zero),
-                            onPressed: () {},
-                            child: Text(
-                              "Baca >",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 201, 241, 56),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                leftUp(width, height),
+                rightUp(width, height),
+                leftBottom(width, height),
+                rightBottom(width, height),
               ],
             ),
           )
@@ -276,6 +40,249 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+Widget rightBottom(width, height) {
+  return Positioned(
+    bottom: 0,
+    right: width * 0.005,
+    child: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromARGB(255, 136, 180, 221),
+            Color.fromARGB(255, 55, 109, 170),
+          ],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+      ),
+      width: width * 0.35,
+      height: height * 0.27,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: width * 0.02, top: width * 0.03),
+            child: Icon(
+              Icons.bookmark_add,
+              color: Colors.white,
+              size: width * 0.14,
+            ),
+          ),
+          SizedBox(
+            height: width * 0.15,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.05),
+            child: Text(
+              "Quran",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.04),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.03),
+            child: TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {},
+              child: Text(
+                "Baca >",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 201, 241, 56),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget leftBottom(width, height) {
+  return Positioned(
+    bottom: 0,
+    left: width * 0.005,
+    child: Container(
+      padding: EdgeInsets.only(top: width * 0.04),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromARGB(255, 136, 180, 221),
+            Color.fromARGB(255, 55, 109, 170),
+          ],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+      ),
+      width: width * 0.35,
+      height: height * 0.2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: width * 0.03),
+            child: Image.asset(
+              'assets/tajwid.png',
+              height: height * 0.05,
+              width: width * 0.2,
+            ),
+          ),
+          SizedBox(
+            height: width * 0.05,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.05),
+            child: Text(
+              "Tajwid list",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.04),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.03),
+            child: TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {},
+              child: Text(
+                "Baca >",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 201, 241, 56),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget rightUp(width, height) {
+  return Positioned(
+    right: width * 0.005,
+    child: Container(
+      padding: EdgeInsets.only(top: width * 0.04),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromARGB(255, 136, 180, 221),
+            Color.fromARGB(255, 55, 109, 170),
+          ],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+      ),
+      width: width * 0.35,
+      height: height * 0.2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset(
+            'assets/bulanbintang.png',
+            height: height * 0.06,
+            width: width * 0.2,
+          ),
+          SizedBox(
+            height: width * 0.05,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.05),
+            child: Text(
+              "Quran",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.04),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.03),
+            child: TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {},
+              child: Text(
+                "Baca >",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 201, 241, 56),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget leftUp(width, height) {
+  return Positioned(
+    left: width * 0.005,
+    child: Container(
+      padding: EdgeInsets.only(top: width * 0.04),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Color.fromARGB(255, 136, 180, 221),
+            Color.fromARGB(255, 55, 109, 170),
+          ],
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+      ),
+      width: width * 0.35,
+      height: height * 0.27,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset(
+            'assets/surah.png',
+            height: height * 0.08,
+            width: width * 0.2,
+          ),
+          SizedBox(
+            height: width * 0.15,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.05),
+            child: Text(
+              "Quran",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.04),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: width * 0.03),
+            child: TextButton(
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              onPressed: () {},
+              child: Text(
+                "Baca >",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 201, 241, 56),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 Widget clipSurah(name, noAyat, width, height, context) {
