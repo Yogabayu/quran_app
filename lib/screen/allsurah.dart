@@ -73,7 +73,6 @@ class _AllsurahScState extends State<AllsurahSc> {
                             surah[index].jumlahAyat,
                             surah[index].nama,
                             index + 1);
-                        ;
                       },
                     ),
                   );
