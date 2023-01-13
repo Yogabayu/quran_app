@@ -273,7 +273,7 @@ Widget leftUp(width, height) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                Get.offAll(() => Allsurah());
+                Get.offAll(() => AllsurahSc());
               },
               child: Text(
                 "Baca >",
