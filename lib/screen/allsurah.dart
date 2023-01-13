@@ -15,7 +15,10 @@ class AllsurahSc extends StatefulWidget {
 }
 
 class _AllsurahScState extends State<AllsurahSc> {
-  Future<List<AllSurahModel>> fetchUsers() async {
+  List<AllSurahModel> filteredList = <AllSurahModel>[];
+  List<AllSurahModel> gettedList = <AllSurahModel>[];
+
+  Future<List<AllSurahModel>> fetchSurah() async {
     var response = await http
         .get(Uri.parse("https://quran-api.santrikoding.com/api/surah/"));
     return (json.decode(response.body) as List)
@@ -23,9 +26,16 @@ class _AllsurahScState extends State<AllsurahSc> {
         .toList();
   }
 
+  searchSurah(text) async {}
+
   @override
   void initState() {
     super.initState();
+    fetchSurah().then((value) {
+      setState(() {
+        gettedList += value;
+      });
+    });
   }
 
   @override
@@ -44,6 +54,7 @@ class _AllsurahScState extends State<AllsurahSc> {
         return false;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(255, 219, 235, 240),
         body: Column(
           children: [
@@ -52,38 +63,62 @@ class _AllsurahScState extends State<AllsurahSc> {
             ),
             header(height, width, context),
             spacer(height),
-            search(width, height, _searchController, context),
-            FutureBuilder<List<AllSurahModel>>(
-              future: fetchUsers(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<AllSurahModel> surah =
-                      snapshot.data as List<AllSurahModel>;
-                  return Container(
+            // search(width, height, _searchController, context),
+            Container(
+              width: width * 0.86,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+              ),
+              child: TextField(
+                onChanged: (value) {
+                  // print(value);
+                  var text = value.toString().toLowerCase();
+                  filteredList.clear();
+                  gettedList.forEach((element) {
+                    if (element.namaLatin!.contains(text)) {
+                      //TODO filter belum ajaln
+                      setState(() {
+                        filteredList.add(element);
+                        print(filteredList);
+                      });
+                    }
+                  });
+                },
+                controller: _searchController,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.white),
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  suffixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                  hintText: 'Cari Surah',
+                ),
+              ),
+            ),
+            filteredList.isEmpty
+                ? Container(
                     width: width * 0.86,
                     height: height * 0.75,
                     child: ListView.builder(
-                      itemCount: surah.length,
+                      itemCount: gettedList.length,
                       itemBuilder: (context, index) {
                         return listSurah(
                             width,
                             height,
-                            surah[index].namaLatin,
-                            surah[index].tempatTurun,
-                            surah[index].jumlahAyat,
-                            surah[index].nama,
+                            gettedList[index].namaLatin,
+                            gettedList[index].tempatTurun,
+                            gettedList[index].jumlahAyat,
+                            gettedList[index].nama,
                             index + 1);
                       },
                     ),
-                  );
-                }
-                if (snapshot.hasError) {
-                  print(snapshot.error.toString());
-                  return Text('error');
-                }
-                return CircularProgressIndicator();
-              },
-            ),
+                  )
+                : Text("${filteredList.length}")
           ],
         ),
       ),
@@ -159,29 +194,30 @@ Widget listSurah(width, height, name, loc, total, arab, index) {
   );
 }
 
-Widget search(width, height, controller, context) {
-  return Container(
-    width: width * 0.86,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
-    ),
-    child: TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        suffixIcon: Icon(Icons.search),
-        border: OutlineInputBorder(),
-        hintText: 'Cari Surah',
-      ),
-    ),
-  );
-}
+// Widget search(width, height, controller, context) {
+//   return Container(
+//     width: width * 0.86,
+//     decoration: BoxDecoration(
+//       borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+//     ),
+//     child: TextField(
+//       onChanged: (value) => searchSurah(value),
+//       controller: controller,
+//       decoration: InputDecoration(
+//         contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+//         enabledBorder: OutlineInputBorder(
+//           borderSide: BorderSide(width: 3, color: Colors.white),
+//           borderRadius: BorderRadius.circular(50.0),
+//         ),
+//         filled: true,
+//         fillColor: Colors.white,
+//         suffixIcon: Icon(Icons.search),
+//         border: OutlineInputBorder(),
+//         hintText: 'Cari Surah',
+//       ),
+//     ),
+//   );
+// }
 
 Widget spacer(height) {
   return SizedBox(
