@@ -104,7 +104,10 @@ class _AllsurahScState extends State<AllsurahSc> {
               ),
             ),
             filteredList.isEmpty || filteredList.length == 0
-                ? Text("Data Kosong")
+                ? Container(
+                    margin: EdgeInsets.only(top: width * 0.2),
+                    child: CircularProgressIndicator(),
+                  )
                 : Container(
                     width: width * 0.86,
                     height: height * 0.75,

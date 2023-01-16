@@ -1,6 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quran_app/model/detailsurahmodel.dart';
 import 'package:quran_app/screen/allsurahsc.dart';
+// import 'package:http/http.dart' as http;
+
+import 'package:http/io_client.dart';
+import 'dart:convert';
 
 class Detailsurah extends StatefulWidget {
   final int no;
@@ -22,6 +30,42 @@ class Detailsurah extends StatefulWidget {
 }
 
 class _DetailsurahState extends State<Detailsurah> {
+  late Future<DetailSurahModel> _futureDetail;
+
+  Future<DetailSurahModel> fetchSurah() async {
+    try {
+      Future.delayed(Duration(seconds: 3));
+      final ioc = new HttpClient();
+      ioc.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      final http = new IOClient(ioc);
+      final response = await http.get(
+        Uri.parse(
+          "https://quran-api.santrikoding.com/api/surah/${widget.no}",
+        ),
+      );
+      // print(response.body);
+      if (response.statusCode == 200) {
+        DetailSurahModel resp =
+            DetailSurahModel.fromJson(jsonDecode(response.body));
+        return resp;
+      } else {
+        throw 'Gagal mengambil data, cek kembali inputan anda';
+      }
+    } on SocketException {
+      throw 'Mohon Cek internet anda';
+    } on TimeoutException {
+      throw 'Waktu habis. Silahkan Reload halaman';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _futureDetail = fetchSurah();
+    print(_futureDetail);
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -48,7 +92,26 @@ class _DetailsurahState extends State<Detailsurah> {
               height: width * 0.04,
             ),
             midBox(width, height, widget.no, widget.name, widget.arti,
-                widget.city, widget.total)
+                widget.city, widget.total),
+            SizedBox(
+              height: width * 0.04,
+            ),
+            Container(
+              width: width * 0.9,
+              height: height * 0.6,
+              child: FutureBuilder(
+                future: _futureDetail,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!.arti!);
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Error");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -114,30 +177,56 @@ Widget midBox(width, height, no, name, arti, city, total) {
                   fontSize: width * 0.029),
             ),
           ),
-        Positioned(
-          top: width * 0.12,
-          left: width * 0.27,
-          child: Column(
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: width * 0.04,
+        if (name.toString().length <= 7)
+          Positioned(
+            top: width * 0.12,
+            left: width * 0.28,
+            child: Column(
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.04,
+                  ),
                 ),
-              ),
-              Text(
-                arti,
-                style: TextStyle(
-                  color: Color.fromARGB(171, 255, 255, 255),
-                  fontWeight: FontWeight.bold,
-                  fontSize: width * 0.03,
+                Text(
+                  arti,
+                  style: TextStyle(
+                    color: Color.fromARGB(171, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.03,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        if (name.toString().length > 7)
+          Positioned(
+            top: width * 0.12,
+            left: width * 0.25,
+            child: Column(
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.04,
+                  ),
+                ),
+                Text(
+                  arti,
+                  style: TextStyle(
+                    color: Color.fromARGB(171, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.03,
+                  ),
+                ),
+              ],
+            ),
+          ),
         Positioned(
           top: width * 0.3,
           left: width * 0.24,
