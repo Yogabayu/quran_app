@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:quran_app/controller/allSurahController.dart';
 import 'package:quran_app/model/allSurahModel.dart';
 import 'package:quran_app/screen/dashboard.dart';
-// import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:quran_app/screen/detailsurah.dart';
 
 class AllsurahSc extends StatefulWidget {
   const AllsurahSc({Key? key}) : super(key: key);
@@ -17,6 +17,7 @@ class AllsurahSc extends StatefulWidget {
 class _AllsurahScState extends State<AllsurahSc> {
   List<AllSurahModel> filteredList = <AllSurahModel>[];
   List<AllSurahModel> gettedList = <AllSurahModel>[];
+  final TextEditingController _searchController = TextEditingController();
 
   Future<List<AllSurahModel>> fetchSurah() async {
     var response = await http
@@ -26,23 +27,27 @@ class _AllsurahScState extends State<AllsurahSc> {
         .toList();
   }
 
-  searchSurah(text) async {}
-
   @override
   void initState() {
     super.initState();
     fetchSurah().then((value) {
       setState(() {
+        filteredList += value;
         gettedList += value;
       });
     });
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    TextEditingController _searchController = TextEditingController();
 
     return WillPopScope(
       onWillPop: () async {
@@ -63,26 +68,24 @@ class _AllsurahScState extends State<AllsurahSc> {
             ),
             header(height, width, context),
             spacer(height),
-            // search(width, height, _searchController, context),
             Container(
               width: width * 0.86,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
               ),
               child: TextField(
-                onChanged: (value) {
-                  // print(value);
+                onChanged: (value) async {
                   var text = value.toString().toLowerCase();
                   filteredList.clear();
-                  gettedList.forEach((element) {
-                    if (element.namaLatin!.contains(text)) {
-                      //TODO filter belum ajaln
-                      setState(() {
-                        filteredList.add(element);
-                        print(filteredList);
-                      });
-                    }
-                  });
+                  gettedList.forEach(
+                    (element) {
+                      if (element.namaLatin!.toLowerCase().contains(text)) {
+                        setState(() {
+                          filteredList.add(element);
+                        });
+                      }
+                    },
+                  );
                 },
                 controller: _searchController,
                 decoration: InputDecoration(
@@ -100,25 +103,27 @@ class _AllsurahScState extends State<AllsurahSc> {
                 ),
               ),
             ),
-            filteredList.isEmpty
-                ? Container(
+            filteredList.isEmpty || filteredList.length == 0
+                ? Text("Data Kosong")
+                : Container(
                     width: width * 0.86,
                     height: height * 0.75,
                     child: ListView.builder(
-                      itemCount: gettedList.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (context, index) {
                         return listSurah(
                             width,
                             height,
-                            gettedList[index].namaLatin,
-                            gettedList[index].tempatTurun,
-                            gettedList[index].jumlahAyat,
-                            gettedList[index].nama,
+                            filteredList[index].namaLatin,
+                            filteredList[index].tempatTurun,
+                            filteredList[index].jumlahAyat,
+                            filteredList[index].nama,
+                            filteredList[index].nomor,
+                            filteredList[index].arti,
                             index + 1);
                       },
                     ),
                   )
-                : Text("${filteredList.length}")
           ],
         ),
       ),
@@ -126,8 +131,21 @@ class _AllsurahScState extends State<AllsurahSc> {
   }
 }
 
-Widget listSurah(width, height, name, loc, total, arab, index) {
+Widget listSurah(width, height, name, loc, total, arab, no, arti, index) {
   return ListTile(
+    onTap: () {
+      Get.offAll(
+        () => Detailsurah(
+          no: no,
+          total: total,
+          name: name,
+          city: loc,
+          arti: arti,
+        ),
+        transition: Transition.fade,
+        duration: Duration(seconds: 1),
+      );
+    },
     contentPadding: EdgeInsets.zero,
     leading: Stack(
       children: [
@@ -194,31 +212,6 @@ Widget listSurah(width, height, name, loc, total, arab, index) {
   );
 }
 
-// Widget search(width, height, controller, context) {
-//   return Container(
-//     width: width * 0.86,
-//     decoration: BoxDecoration(
-//       borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
-//     ),
-//     child: TextField(
-//       onChanged: (value) => searchSurah(value),
-//       controller: controller,
-//       decoration: InputDecoration(
-//         contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-//         enabledBorder: OutlineInputBorder(
-//           borderSide: BorderSide(width: 3, color: Colors.white),
-//           borderRadius: BorderRadius.circular(50.0),
-//         ),
-//         filled: true,
-//         fillColor: Colors.white,
-//         suffixIcon: Icon(Icons.search),
-//         border: OutlineInputBorder(),
-//         hintText: 'Cari Surah',
-//       ),
-//     ),
-//   );
-// }
-
 Widget spacer(height) {
   return SizedBox(
     height: height * 0.04,
@@ -232,10 +225,19 @@ Widget header(height, width, context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ClipOval(
-          child: Icon(
-            Icons.home_outlined,
-            size: width * 0.08,
-            color: Color.fromRGBO(32, 105, 95, 1),
+          child: IconButton(
+            icon: Icon(
+              Icons.home_outlined,
+              size: width * 0.08,
+              color: Color.fromRGBO(32, 105, 95, 1),
+            ),
+            onPressed: () {
+              Get.offAll(
+                () => Dashboard(),
+                transition: Transition.fade,
+                duration: Duration(seconds: 1),
+              );
+            },
           ),
         ),
         Text(

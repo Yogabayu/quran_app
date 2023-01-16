@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quran_app/screen/allsurah.dart';
+import 'package:quran_app/screen/allsurahsc.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -80,7 +80,7 @@ Widget rightBottom(width, height) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Quran",
+              "Bookmarks",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -202,7 +202,7 @@ Widget rightUp(width, height) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Quran",
+              "Memorize",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
