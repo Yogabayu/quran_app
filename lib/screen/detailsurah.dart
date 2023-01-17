@@ -93,30 +93,120 @@ class _DetailsurahState extends State<Detailsurah> {
             ),
             midBox(width, height, widget.no, widget.name, widget.arti,
                 widget.city, widget.total),
+            Container(
+              padding: EdgeInsets.zero,
+              margin: EdgeInsets.zero,
+              width: width * 0.5,
+              height: height * 0.08,
+              child: Image.asset("assets/bismillah2.png"),
+            ),
             SizedBox(
               height: width * 0.04,
             ),
-            Container(
-              width: width * 0.9,
-              height: height * 0.6,
-              child: FutureBuilder(
-                future: _futureDetail,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!.arti!);
-                  }
-                  if (snapshot.hasError) {
-                    return Text("Error");
-                  }
-                  return CircularProgressIndicator();
-                },
-              ),
+            FutureBuilder(
+              future: _futureDetail,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ayat(context, width, height, snapshot.data!.jumlahAyat,
+                      snapshot.data!.nomor, snapshot.data!.ayat);
+                }
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return CircularProgressIndicator();
+              },
             ),
           ],
         ),
       ),
     );
   }
+}
+
+Widget ayat(context, width, height, lenght, noSurah, List<Ayat>? ayat) {
+  return Container(
+    width: width * 0.9,
+    height: height * 0.5,
+    child: ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: lenght,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 169, 186, 197),
+                  borderRadius: BorderRadius.all(Radius.circular(width * 0.4))),
+              height: width * 0.1,
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: EdgeInsets.all(width * 0.01),
+                    margin: EdgeInsets.only(left: width * 0.05),
+                    child: Text(
+                      "${ayat![index].nomor}",
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.4,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.bookmark_add,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.share,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: width * 0.04),
+              width: width * 0.8,
+              height: width * 0.35,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "${ayat[index].ar}",
+                  style:
+                      TextStyle(fontSize: 20, overflow: TextOverflow.visible),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: width * 0.04),
+              width: width * 0.8,
+              height: width * 0.1,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [Text("${ayat[index].idn}")],
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+  );
 }
 
 Widget midBox(width, height, no, name, arti, city, total) {
