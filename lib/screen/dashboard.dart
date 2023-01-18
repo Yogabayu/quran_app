@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:quran_app/screen/allsurahsc.dart';
+import 'package:quran_app/screen/detailsurah.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -10,8 +12,13 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final storage = GetStorage();
+
   @override
   Widget build(BuildContext context) {
+    final nameSurah = storage.read('name');
+    final idSurah = storage.read('id');
+    final noAyat = storage.read('noayat');
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -24,17 +31,19 @@ class _DashboardState extends State<Dashboard> {
           header(height, width, context),
           image(height, width, context),
           spacer(height),
-          clipSurah("Name Surah", 12, width, height, context),
+          idSurah != null
+              ? clipSurah(idSurah, nameSurah, noAyat, width, height, context)
+              : clipSurah(idSurah, "nameSurah", 0, width, height, context),
           spacer(height),
           Container(
             width: width * 0.8,
             height: height * 0.5,
             child: Stack(
               children: [
-                leftUp(width, height),
-                rightUp(width, height),
-                leftBottom(width, height),
-                rightBottom(width, height),
+                leftUp(width, height, context),
+                rightUp(width, height, context),
+                leftBottom(width, height, context),
+                rightBottom(width, height, context),
               ],
             ),
           )
@@ -44,7 +53,7 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-Widget rightBottom(width, height) {
+Widget rightBottom(width, height, context) {
   return Positioned(
     bottom: 0,
     right: width * 0.005,
@@ -91,7 +100,12 @@ Widget rightBottom(width, height) {
             margin: EdgeInsets.only(left: width * 0.03),
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Hi, Tunggu Update selanjutnya"),
+                ));
+              },
               child: Text(
                 "Baca >",
                 style: TextStyle(
@@ -106,7 +120,7 @@ Widget rightBottom(width, height) {
   );
 }
 
-Widget leftBottom(width, height) {
+Widget leftBottom(width, height, context) {
   return Positioned(
     bottom: 0,
     left: width * 0.005,
@@ -154,7 +168,12 @@ Widget leftBottom(width, height) {
             margin: EdgeInsets.only(left: width * 0.03),
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Hi, Tunggu Update selanjutnya"),
+                ));
+              },
               child: Text(
                 "Baca >",
                 style: TextStyle(
@@ -169,7 +188,7 @@ Widget leftBottom(width, height) {
   );
 }
 
-Widget rightUp(width, height) {
+Widget rightUp(width, height, context) {
   return Positioned(
     right: width * 0.005,
     child: Container(
@@ -213,7 +232,12 @@ Widget rightUp(width, height) {
             margin: EdgeInsets.only(left: width * 0.03),
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Hi, Tunggu Update selanjutnya"),
+                ));
+              },
               child: Text(
                 "Baca >",
                 style: TextStyle(
@@ -228,7 +252,7 @@ Widget rightUp(width, height) {
   );
 }
 
-Widget leftUp(width, height) {
+Widget leftUp(width, height, context) {
   return Positioned(
     left: width * 0.005,
     child: Container(
@@ -289,7 +313,7 @@ Widget leftUp(width, height) {
   );
 }
 
-Widget clipSurah(name, noAyat, width, height, context) {
+Widget clipSurah(id, name, noAyat, width, height, context) {
   return Container(
     margin: EdgeInsets.all(0),
     width: width * 0.8,
@@ -330,7 +354,15 @@ Widget clipSurah(name, noAyat, width, height, context) {
             ),
             TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {},
+              onPressed: () {
+                Get.offAll(
+                  () => Detailsurah(
+                    no: id,
+                  ),
+                  transition: Transition.fade,
+                  duration: Duration(seconds: 1),
+                );
+              },
               child: Text(
                 "Lanjutkan >",
                 style: TextStyle(

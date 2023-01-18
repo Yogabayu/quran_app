@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:quran_app/model/detailsurahmodel.dart';
 import 'package:quran_app/screen/allsurahsc.dart';
 // import 'package:http/http.dart' as http;
@@ -10,19 +12,22 @@ import 'package:quran_app/screen/allsurahsc.dart';
 import 'package:http/io_client.dart';
 import 'dart:convert';
 
+import 'package:quran_app/screen/dashboard.dart';
+import 'package:share_plus/share_plus.dart';
+
 class Detailsurah extends StatefulWidget {
-  final int no;
-  final int total;
-  final String name;
-  final String arti;
-  final String city;
+  final int? no;
+  final int? total;
+  final String? name;
+  final String? arti;
+  final String? city;
   const Detailsurah({
     Key? key,
-    required this.no,
-    required this.total,
-    required this.name,
-    required this.arti,
-    required this.city,
+    this.no,
+    this.total,
+    this.name,
+    this.arti,
+    this.city,
   }) : super(key: key);
 
   @override
@@ -30,8 +35,10 @@ class Detailsurah extends StatefulWidget {
 }
 
 class _DetailsurahState extends State<Detailsurah> {
+  final storage = GetStorage();
   late Future<DetailSurahModel> _futureDetail;
-
+  bool _isPlaying = false;
+  bool _isPaused = false;
   Future<DetailSurahModel> fetchSurah() async {
     try {
       Future.delayed(Duration(seconds: 3));
@@ -44,7 +51,6 @@ class _DetailsurahState extends State<Detailsurah> {
           "https://quran-api.santrikoding.com/api/surah/${widget.no}",
         ),
       );
-      // print(response.body);
       if (response.statusCode == 200) {
         DetailSurahModel resp =
             DetailSurahModel.fromJson(jsonDecode(response.body));
@@ -59,11 +65,28 @@ class _DetailsurahState extends State<Detailsurah> {
     }
   }
 
+  void play() async {
+    setState(() {
+      _isPlaying = true;
+    });
+  }
+
+  void pause() async {
+    setState(() {
+      _isPlaying = false;
+    });
+  }
+
+  void resume() async {
+    setState(() {
+      _isPlaying = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _futureDetail = fetchSurah();
-    print(_futureDetail);
   }
 
   @override
@@ -82,48 +105,113 @@ class _DetailsurahState extends State<Detailsurah> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(255, 219, 235, 240),
-        body: Column(
-          children: [
-            SizedBox(
-              height: width * 0.1,
-            ),
-            header(height, width, context, widget.name),
-            SizedBox(
-              height: width * 0.04,
-            ),
-            midBox(width, height, widget.no, widget.name, widget.arti,
-                widget.city, widget.total),
-            Container(
-              padding: EdgeInsets.zero,
-              margin: EdgeInsets.zero,
-              width: width * 0.5,
-              height: height * 0.08,
-              child: Image.asset("assets/bismillah2.png"),
-            ),
-            SizedBox(
-              height: width * 0.04,
-            ),
-            FutureBuilder(
-              future: _futureDetail,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ayat(context, width, height, snapshot.data!.jumlahAyat,
-                      snapshot.data!.nomor, snapshot.data!.ayat);
-                }
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return CircularProgressIndicator();
-              },
-            ),
-          ],
+        body: FutureBuilder(
+          future: _futureDetail,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: width * 0.1,
+                  ),
+                  header(height, width, context, snapshot.data!.namaLatin),
+                  SizedBox(
+                    height: width * 0.04,
+                  ),
+                  midBox(
+                      width,
+                      height,
+                      snapshot.data!.nomor,
+                      snapshot.data!.namaLatin,
+                      snapshot.data!.arti,
+                      snapshot.data!.tempatTurun,
+                      snapshot.data!.jumlahAyat),
+                  Container(
+                    padding: EdgeInsets.zero,
+                    margin: EdgeInsets.zero,
+                    width: width * 0.5,
+                    height: height * 0.08,
+                    child: Image.asset("assets/bismillah2.png"),
+                  ),
+                  Container(
+                    padding: EdgeInsets.zero,
+                    margin: EdgeInsets.zero,
+                    width: width * 0.5,
+                    height: height * 0.08,
+                    child: Row(
+                      children: [
+                        Text("Putar Audio: "),
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: (_isPlaying)
+                              ? Icon(
+                                  Icons.pause,
+                                  color: Colors.white,
+                                )
+                              : Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                ),
+                          onPressed: () => _isPlaying
+                              ? pause()
+                              : _isPaused
+                                  ? resume()
+                                  : play(),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: width * 0.04,
+                  ),
+                  ayat(
+                      storage,
+                      context,
+                      width,
+                      height,
+                      snapshot.data!.jumlahAyat,
+                      snapshot.data!.nomor,
+                      snapshot.data!.ayat,
+                      snapshot.data!.namaLatin),
+                ],
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Container(
+                  width: width,
+                  height: width * 0.5,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Text(
+                          '${snapshot.error}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        ),
+                        margin: EdgeInsets.all(20),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return Container(
+              width: width,
+              height: width * 0.5,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
         ),
       ),
     );
   }
 }
 
-Widget ayat(context, width, height, lenght, noSurah, List<Ayat>? ayat) {
+Widget ayat(storage, context, width, height, lenght, noSurah, List<Ayat>? ayat,
+    nameSurah) {
   return Container(
     width: width * 0.9,
     height: height * 0.5,
@@ -164,14 +252,36 @@ Widget ayat(context, width, height, lenght, noSurah, List<Ayat>? ayat) {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        storage.write('name', nameSurah);
+                        storage.write('id', noSurah);
+                        storage.write('noayat', "${ayat[index].nomor}");
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Sukses menyimpan"),
+                          ),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("${e}"),
+                          ),
+                        );
+                      }
+                    },
                     icon: Icon(
                       Icons.bookmark_add,
                       color: Colors.white,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Share.share(
+                          'Alhamdulilah, Saya sedang membaca myQuran Surah ${nameSurah} sampai Ayat ${ayat[index].nomor}');
+                    },
                     icon: Icon(
                       Icons.share,
                       color: Colors.white,
@@ -364,10 +474,81 @@ Widget header(height, width, context, name) {
             color: Color.fromRGBO(33, 139, 95, 1),
           ),
         ),
-        SizedBox(
-          width: width * 0.08,
-        )
+        ClipOval(
+          child: IconButton(
+            icon: Icon(
+              Icons.home_outlined,
+              size: width * 0.08,
+              color: Color.fromRGBO(32, 105, 95, 1),
+            ),
+            onPressed: () {
+              Get.offAll(
+                () => Dashboard(),
+                transition: Transition.fade,
+                duration: Duration(seconds: 1),
+              );
+            },
+          ),
+        ),
       ],
     ),
   );
 }
+
+// class PlayButton extends StatefulWidget {
+//   final String id;
+//   final String url;
+
+//   const PlayButton({Key? key, required this.url, required this.id})
+//       : super(key: key);
+
+//   @override
+//   _PlayButtonState createState() => _PlayButtonState();
+// }
+
+// class _PlayButtonState extends State<PlayButton> {
+//   bool _isPlaying = false;
+//   bool _isPaused = false;
+
+//   void play() async {
+//     setState(() {
+//       _isPlaying = true;
+//       print(widget.url);
+//     });
+//   }
+
+//   void pause() async {
+//     setState(() {
+//       _isPlaying = false;
+//       print(widget.url);
+//     });
+//   }
+
+//   void resume() async {
+//     setState(() {
+//       _isPlaying = true;
+//       print(widget.url);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return IconButton(
+//       padding: EdgeInsets.zero,
+//       icon: (_isPlaying)
+//           ? Icon(
+//               Icons.pause,
+//               color: Colors.white,
+//             )
+//           : Icon(
+//               Icons.play_arrow,
+//               color: Colors.white,
+//             ),
+//       onPressed: () => _isPlaying
+//           ? pause()
+//           : _isPaused
+//               ? resume()
+//               : play(),
+//     );
+//   }
+// }
