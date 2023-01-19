@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quran_app/controller/allSurahController.dart';
 import 'package:quran_app/model/allSurahModel.dart';
 import 'package:quran_app/screen/dashboard.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-import 'package:quran_app/screen/detailsurah.dart';
+import 'package:quran_app/screen/surah/detailsurah.dart';
 
 class AllsurahSc extends StatefulWidget {
   const AllsurahSc({Key? key}) : super(key: key);
@@ -18,19 +17,14 @@ class _AllsurahScState extends State<AllsurahSc> {
   List<AllSurahModel> filteredList = <AllSurahModel>[];
   List<AllSurahModel> gettedList = <AllSurahModel>[];
   final TextEditingController _searchController = TextEditingController();
-
-  Future<List<AllSurahModel>> fetchSurah() async {
-    var response = await http
-        .get(Uri.parse("https://quran-api.santrikoding.com/api/surah/"));
-    return (json.decode(response.body) as List)
-        .map((e) => AllSurahModel.fromJson(e))
-        .toList();
-  }
+  final AllSurahController _allSurahC = Get.put(AllSurahController());
+  late Future<List<AllSurahModel>> futureAllSurah;
 
   @override
   void initState() {
     super.initState();
-    fetchSurah().then((value) {
+    futureAllSurah = _allSurahC.fetchSurah();
+    futureAllSurah.then((value) {
       setState(() {
         filteredList += value;
         gettedList += value;
