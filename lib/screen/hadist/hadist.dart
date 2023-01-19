@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quran_app/controller/hadistController.dart';
+import 'package:quran_app/model/booksHadistModel.dart';
 import 'package:quran_app/screen/dashboard.dart';
 
 class Hadist extends StatefulWidget {
@@ -10,6 +12,32 @@ class Hadist extends StatefulWidget {
 }
 
 class _HadistState extends State<Hadist> {
+  List<Data> filteredList = <Data>[];
+  List<Data> gettedList = <Data>[];
+  final HadistController _booksController = Get.put(HadistController());
+  late Future<BooksHadist> futureBooks;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    futureBooks = _booksController.getBooks();
+    futureBooks.then((value) {
+      value.data!.forEach((element) {
+        setState(() {
+          filteredList.add(element);
+          gettedList.add(element);
+        });
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -32,10 +60,67 @@ class _HadistState extends State<Hadist> {
                 height: width * 0.1,
               ),
               header(height, width, context),
+              spacer(height),
+              Container(
+                width: width * 0.86,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
+                ),
+                child: TextField(
+                  onChanged: (value) async {
+                    var text = value.toString().toLowerCase();
+                    filteredList.clear();
+                    gettedList.forEach(
+                      (element) {
+                        if (element.name!.contains(text)) {
+                          setState(() {
+                            filteredList.add(element);
+                          });
+                        }
+                      },
+                    );
+                  },
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 3, color: Colors.white),
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    suffixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(),
+                    hintText: 'Cari Mudawwin atau Ahli Hadist ',
+                  ),
+                ),
+              ),
+              filteredList.isEmpty || filteredList.length == 0
+                  ? Container(
+                      margin: EdgeInsets.only(top: width * 0.2),
+                      child: CircularProgressIndicator(),
+                    )
+                  : Container(
+                      width: width * 0.86,
+                      height: height * 0.75,
+                      child: ListView.builder(
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          return Text(filteredList[index].name!);
+                        },
+                      ),
+                    )
             ],
           )),
     );
   }
+}
+
+Widget spacer(height) {
+  return SizedBox(
+    height: height * 0.04,
+  );
 }
 
 Widget header(height, width, context) {

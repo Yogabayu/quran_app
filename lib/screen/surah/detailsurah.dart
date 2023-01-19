@@ -1,18 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:quran_app/controller/allSurahController.dart';
 import 'package:quran_app/model/detailsurahmodel.dart';
 import 'package:quran_app/screen/surah/allsurahsc.dart';
-// import 'package:http/http.dart' as http;
-
-import 'package:http/io_client.dart';
 import 'package:quran_app/screen/components/bookmarkbtn.dart';
 import 'package:quran_app/screen/components/playbutton.dart';
-import 'dart:convert';
-
 import 'package:quran_app/screen/dashboard.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -35,38 +29,13 @@ class Detailsurah extends StatefulWidget {
 
 class _DetailsurahState extends State<Detailsurah> {
   final storage = GetStorage();
+  final AllSurahController _allSUrahC = Get.put(AllSurahController());
   late Future<DetailSurahModel> _futureDetail;
-
-  Future<DetailSurahModel> fetchSurah() async {
-    try {
-      Future.delayed(Duration(seconds: 3));
-      final ioc = new HttpClient();
-      ioc.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      final http = new IOClient(ioc);
-      final response = await http.get(
-        Uri.parse(
-          "https://quran-api.santrikoding.com/api/surah/${widget.no}",
-        ),
-      );
-      if (response.statusCode == 200) {
-        DetailSurahModel resp =
-            DetailSurahModel.fromJson(jsonDecode(response.body));
-        return resp;
-      } else {
-        throw 'Gagal mengambil data, cek kembali inputan anda';
-      }
-    } on SocketException {
-      throw 'Mohon Cek internet anda';
-    } on TimeoutException {
-      throw 'Waktu habis. Silahkan Reload halaman';
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _futureDetail = fetchSurah();
+    _futureDetail = _allSUrahC.fetchDetailSurah(widget.no);
   }
 
   @override
