@@ -16,9 +16,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final nameSurah = storage.read('name');
+    final String? nameSurah = storage.read('name');
     final idSurah = storage.read('id');
-    final noAyat = storage.read('noayat');
+    final String? noAyat = storage.read('noayat').toString();
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -33,7 +33,7 @@ class _DashboardState extends State<Dashboard> {
           spacer(height),
           idSurah != null
               ? clipSurah(idSurah, nameSurah, noAyat, width, height, context)
-              : clipSurah(idSurah, "nameSurah", 0, width, height, context),
+              : clipSurah(idSurah, "Belum Ada", 0, width, height, context),
           spacer(height),
           Container(
             width: width * 0.8,
@@ -352,24 +352,26 @@ Widget clipSurah(id, name, noAyat, width, height, context) {
               "Ayat : " + noAyat.toString(),
               style: TextStyle(color: Colors.white),
             ),
-            TextButton(
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              onPressed: () {
-                Get.offAll(
-                  () => Detailsurah(
-                    no: id,
+            if (name != "Belum Ada")
+              TextButton(
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                onPressed: () {
+                  Get.offAll(
+                    () => Detailsurah(
+                      no: id,
+                      noAyat: noAyat,
+                    ),
+                    transition: Transition.fade,
+                    duration: Duration(seconds: 1),
+                  );
+                },
+                child: Text(
+                  "Lanjutkan >",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 201, 241, 56),
                   ),
-                  transition: Transition.fade,
-                  duration: Duration(seconds: 1),
-                );
-              },
-              child: Text(
-                "Lanjutkan >",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 201, 241, 56),
                 ),
               ),
-            ),
           ],
         ),
         Image.asset(
