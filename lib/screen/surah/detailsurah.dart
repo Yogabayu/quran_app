@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quran_app/model/detailsurahmodel.dart';
-import 'package:quran_app/screen/allsurahsc.dart';
+import 'package:quran_app/screen/surah/allsurahsc.dart';
 // import 'package:http/http.dart' as http;
 
 import 'package:http/io_client.dart';

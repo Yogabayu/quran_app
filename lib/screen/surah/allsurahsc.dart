@@ -5,7 +5,7 @@ import 'package:quran_app/screen/dashboard.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:quran_app/screen/detailsurah.dart';
+import 'package:quran_app/screen/surah/detailsurah.dart';
 
 class AllsurahSc extends StatefulWidget {
   const AllsurahSc({Key? key}) : super(key: key);
