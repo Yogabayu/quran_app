@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:quran_app/controller/hadistController.dart';
 import 'package:quran_app/model/booksHadistModel.dart';
 import 'package:quran_app/screen/dashboard.dart';
+import 'package:quran_app/screen/hadist/detailhadist.dart';
 
 class Hadist extends StatefulWidget {
   const Hadist({Key? key}) : super(key: key);
@@ -107,7 +108,13 @@ class _HadistState extends State<Hadist> {
                       child: ListView.builder(
                         itemCount: filteredList.length,
                         itemBuilder: (context, index) {
-                          return Text(filteredList[index].name!);
+                          return listPHadist(
+                              width,
+                              height,
+                              index + 1,
+                              filteredList[index].name,
+                              filteredList[index].available,
+                              filteredList[index].id);
                         },
                       ),
                     )
@@ -115,6 +122,78 @@ class _HadistState extends State<Hadist> {
           )),
     );
   }
+}
+
+Widget listPHadist(width, height, index, name, available, id) {
+  return ListTile(
+    contentPadding: EdgeInsets.zero,
+    onTap: () {
+      Get.offAll(
+        () => Detailhadist(
+          id: id,
+          first: "1",
+          second: "100",
+        ),
+        transition: Transition.fade,
+        duration: Duration(seconds: 1),
+      );
+    },
+    leading: Stack(
+      children: [
+        Image.asset(
+          'assets/frame.png',
+          width: width * 0.2,
+        ),
+        if (index < 10)
+          Positioned(
+            left: width * 0.09,
+            top: width * 0.046,
+            child: Text(
+              "$index",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.clip),
+            ),
+          ),
+        if (index >= 10 && index < 100)
+          Positioned(
+            left: width * 0.082,
+            top: width * 0.046,
+            child: Text(
+              "$index",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.clip),
+            ),
+          ),
+        if (index >= 100)
+          Positioned(
+            left: width * 0.07,
+            top: width * 0.046,
+            child: Text(
+              "$index",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.clip),
+            ),
+          )
+      ],
+    ),
+    title: Text(
+      name,
+      style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
+    ),
+    subtitle: Text(
+      "Tersedia: ${available}",
+      style: TextStyle(
+        fontSize: width * 0.03,
+        color: Color.fromARGB(120, 3, 3, 3),
+      ),
+    ),
+  );
 }
 
 Widget spacer(height) {
