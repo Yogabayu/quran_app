@@ -123,75 +123,72 @@ class _DetailhadistState extends State<Detailhadist> {
                       padding: EdgeInsets.zero,
                       itemCount: filteredList.length,
                       itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 169, 186, 197),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(width * 0.4))),
-                              height: width * 0.1,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
+                        return Container(
+                          margin: EdgeInsets.only(
+                            bottom: width * 0.02,
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 169, 186, 197),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(width * 0.4))),
+                                height: width * 0.1,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      padding: EdgeInsets.all(width * 0.01),
+                                      margin:
+                                          EdgeInsets.only(left: width * 0.05),
+                                      child: Text(
+                                        filteredList[index].number.toString(),
+                                      ),
                                     ),
-                                    padding: EdgeInsets.all(width * 0.01),
-                                    margin: EdgeInsets.only(left: width * 0.05),
-                                    child: Text(
-                                      filteredList[index].number.toString(),
+                                    SizedBox(
+                                      width: width * 0.6,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: width * 0.6,
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Share.share(
-                                          'Alhamdulilah, Saya sedang membaca Hadist dari ${detailListHadist.name} dari myQuran App by Yoga Dev');
-                                    },
-                                    icon: Icon(
-                                      Icons.share,
-                                      color: Colors.white,
+                                    IconButton(
+                                      onPressed: () {
+                                        Share.share(
+                                            'Alhamdulilah, Saya sedang membaca Hadist dari ${detailListHadist.name} dari myQuran App by Yoga Dev');
+                                      },
+                                      icon: Icon(
+                                        Icons.share,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: width * 0.04),
-                              width: width * 0.8,
-                              height: width * 0.6,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                  Text(
-                                    filteredList[index].arab.toString(),
-                                  ),
-                                ],
+                              Container(
+                                margin: EdgeInsets.only(top: width * 0.04),
+                                width: width * 0.8,
+                                // height: width * 0.6,
+                                child: Text(
+                                  filteredList[index].arab.toString(),
+                                ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: width * 0.04),
-                              width: width * 0.8,
-                              height: width * 0.3,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                children: [
-                                  Text(
-                                    filteredList[index].id.toString(),
-                                    style: TextStyle(
-                                        fontSize: width * 0.03,
-                                        overflow: TextOverflow.clip),
-                                  )
-                                ],
+                              Container(
+                                margin: EdgeInsets.only(top: width * 0.04),
+                                width: width * 0.8,
+                                // height: width * 0.3,
+                                child: Text(
+                                  filteredList[index].id.toString(),
+                                  style: TextStyle(
+                                      fontSize: width * 0.03,
+                                      overflow: TextOverflow.clip),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         );
                       },
                     ),
