@@ -24,7 +24,7 @@ class Detailhadist extends StatefulWidget {
 class _DetailhadistState extends State<Detailhadist> {
   List<Hadiths> filteredList = <Hadiths>[];
   List<Hadiths> gettedList = <Hadiths>[];
-  List<DetailHadist> detailListHadist = <DetailHadist>[];
+  late Data detailListHadist;
   final HadistController _controller = Get.put(HadistController());
   late Future<DetailHadist> futureDetail;
   final TextEditingController _searchController = TextEditingController();
@@ -35,6 +35,7 @@ class _DetailhadistState extends State<Detailhadist> {
     futureDetail =
         _controller.detailBooks(widget.id, widget.first, widget.second);
     futureDetail.then((value) {
+      detailListHadist = value.data!;
       value.data!.hadiths!.forEach((element) {
         setState(() {
           filteredList.add(element);
@@ -91,7 +92,6 @@ class _DetailhadistState extends State<Detailhadist> {
                       }
                     },
                   );
-
                   print(filteredList.length);
                 },
                 controller: _searchController,
@@ -152,7 +152,7 @@ class _DetailhadistState extends State<Detailhadist> {
                                   IconButton(
                                     onPressed: () {
                                       Share.share(
-                                          'Alhamdulilah, Saya sedang membaca Hadist dari ${detailListHadist[index].data!.name} dari myQuran App by Yoga Dev');
+                                          'Alhamdulilah, Saya sedang membaca Hadist dari ${detailListHadist.name} dari myQuran App by Yoga Dev');
                                     },
                                     icon: Icon(
                                       Icons.share,
@@ -166,14 +166,13 @@ class _DetailhadistState extends State<Detailhadist> {
                               margin: EdgeInsets.only(top: width * 0.04),
                               width: width * 0.8,
                               height: width * 0.6,
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  filteredList[index].arab.toString(),
-                                  style: TextStyle(
-                                      fontSize: width * 0.04,
-                                      overflow: TextOverflow.visible),
-                                ),
+                              child: ListView(
+                                scrollDirection: Axis.vertical,
+                                children: [
+                                  Text(
+                                    filteredList[index].arab.toString(),
+                                  ),
+                                ],
                               ),
                             ),
                             Container(
