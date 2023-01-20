@@ -80,6 +80,19 @@ class _DetailhadistState extends State<Detailhadist> {
                 borderRadius: BorderRadius.all(Radius.circular(width * 0.07)),
               ),
               child: TextField(
+                onSubmitted: (value) async {
+                  var text = value.toString().toLowerCase();
+                  filteredList.clear();
+                  gettedList.forEach(
+                    (element) {
+                      if (element.id!.contains(text)) {
+                        setState(() {
+                          filteredList.add(element);
+                        });
+                      }
+                    },
+                  );
+                },
                 onChanged: (value) async {
                   var text = value.toString().toLowerCase();
                   filteredList.clear();
@@ -92,7 +105,6 @@ class _DetailhadistState extends State<Detailhadist> {
                       }
                     },
                   );
-                  print(filteredList.length);
                 },
                 controller: _searchController,
                 decoration: InputDecoration(
