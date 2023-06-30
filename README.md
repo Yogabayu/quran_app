@@ -1,8 +1,6 @@
 # Flutter Project - myQuran
 
-"Flutter Project - myQuran" adalah sebuah proyek pengembangan aplikasi menggunakan framework Flutter. Aplikasi ini bertujuan untuk menyediakan akses mudah dan praktis bagi pengguna dalam membaca dan mengakses Al-Quran melalui perangkat mobile mereka.
-
-myQuran memiliki fitur-fitur seperti pencarian ayat, penandaan ayat favorit, dan penampilan tafsir untuk membantu pengguna dalam memahami dan mengkaji isi Al-Quran. Aplikasi ini juga dilengkapi dengan berbagai pilihan tampilan dan tema yang dapat disesuaikan sesuai dengan preferensi pengguna.
+"Flutter Project - myQuran" adalah sebuah proyek pengembangan aplikasi menggunakan framework Flutter. Aplikasi ini bertujuan untuk menyediakan akses mudah dan praktis bagi pengguna dalam membaca dan mengakses Al-Quran melalui perangkat mobile mereka. myQuran memiliki fitur-fitur seperti pencarian ayat, penandaan ayat favorit, dan penampilan tafsir untuk membantu pengguna dalam memahami dan mengkaji isi Al-Quran.
 
 ## Installation
 
