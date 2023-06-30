@@ -1,18 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:quran_app/controller/allSurahController.dart';
 import 'package:quran_app/model/detailsurahmodel.dart';
 import 'package:quran_app/screen/surah/allsurahsc.dart';
-// import 'package:http/http.dart' as http;
-
-import 'package:http/io_client.dart';
 import 'package:quran_app/screen/components/bookmarkbtn.dart';
 import 'package:quran_app/screen/components/playbutton.dart';
-import 'dart:convert';
-
 import 'package:quran_app/screen/dashboard.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -35,38 +29,13 @@ class Detailsurah extends StatefulWidget {
 
 class _DetailsurahState extends State<Detailsurah> {
   final storage = GetStorage();
+  final AllSurahController _allSUrahC = Get.put(AllSurahController());
   late Future<DetailSurahModel> _futureDetail;
-
-  Future<DetailSurahModel> fetchSurah() async {
-    try {
-      Future.delayed(Duration(seconds: 3));
-      final ioc = new HttpClient();
-      ioc.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      final http = new IOClient(ioc);
-      final response = await http.get(
-        Uri.parse(
-          "https://quran-api.santrikoding.com/api/surah/${widget.no}",
-        ),
-      );
-      if (response.statusCode == 200) {
-        DetailSurahModel resp =
-            DetailSurahModel.fromJson(jsonDecode(response.body));
-        return resp;
-      } else {
-        throw 'Gagal mengambil data, cek kembali inputan anda';
-      }
-    } on SocketException {
-      throw 'Mohon Cek internet anda';
-    } on TimeoutException {
-      throw 'Waktu habis. Silahkan Reload halaman';
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    _futureDetail = fetchSurah();
+    _futureDetail = _allSUrahC.fetchDetailSurah(widget.no);
   }
 
   @override
@@ -174,79 +143,80 @@ Widget ayat(storage, context, width, height, lenght, noSurah, List<Ayat>? ayat,
       padding: EdgeInsets.zero,
       itemCount: lenght,
       itemBuilder: (context, index) {
-        return Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 169, 186, 197),
-                  borderRadius: BorderRadius.all(Radius.circular(width * 0.4))),
-              height: width * 0.1,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+        return Container(
+          margin: EdgeInsets.only(
+            bottom: width * 0.02,
+          ),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 169, 186, 197),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(width * 0.4))),
+                height: width * 0.1,
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      padding: EdgeInsets.all(width * 0.01),
+                      margin: EdgeInsets.only(left: width * 0.05),
+                      child: Text(
+                        "${ayat![index].nomor}",
+                      ),
                     ),
-                    padding: EdgeInsets.all(width * 0.01),
-                    margin: EdgeInsets.only(left: width * 0.05),
-                    child: Text(
-                      "${ayat![index].nomor}",
+                    SizedBox(
+                      width: width * 0.5,
                     ),
-                  ),
-                  SizedBox(
-                    width: width * 0.5,
-                  ),
-                  if (noAyat.toString() == ayat[index].nomor.toString())
-                    Bookmarkbtn(
-                        nameSurah: nameSurah,
-                        noSurah: noSurah,
-                        noayat: ayat[index].nomor,
-                        isSave: true),
-                  if (noAyat.toString() != ayat[index].nomor.toString())
-                    Bookmarkbtn(
-                        nameSurah: nameSurah,
-                        noSurah: noSurah,
-                        noayat: ayat[index].nomor,
-                        isSave: false),
-                  IconButton(
-                    onPressed: () {
-                      Share.share(
-                          'Alhamdulilah, Saya sedang membaca myQuran Surah ${nameSurah} sampai Ayat ${ayat[index].nomor}');
-                    },
-                    icon: Icon(
-                      Icons.share,
-                      color: Colors.white,
+                    if (noAyat.toString() == ayat[index].nomor.toString())
+                      Bookmarkbtn(
+                          nameSurah: nameSurah,
+                          noSurah: noSurah,
+                          noayat: ayat[index].nomor,
+                          isSave: true),
+                    if (noAyat.toString() != ayat[index].nomor.toString())
+                      Bookmarkbtn(
+                          nameSurah: nameSurah,
+                          noSurah: noSurah,
+                          noayat: ayat[index].nomor,
+                          isSave: false),
+                    IconButton(
+                      onPressed: () {
+                        Share.share(
+                            'Alhamdulilah, Saya sedang membaca myQuran Surah ${nameSurah} sampai Ayat ${ayat[index].nomor}');
+                      },
+                      icon: Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: width * 0.04),
-              width: width * 0.8,
-              height: width * 0.35,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  "${ayat[index].ar}",
-                  style:
-                      TextStyle(fontSize: 20, overflow: TextOverflow.visible),
+                  ],
                 ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: width * 0.04),
-              width: width * 0.8,
-              height: width * 0.1,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [Text("${ayat[index].idn}")],
+              Container(
+                margin: EdgeInsets.only(top: width * 0.04),
+                width: width * 0.8,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    "${ayat[index].ar}",
+                    style:
+                        TextStyle(fontSize: 20, overflow: TextOverflow.visible),
+                  ),
+                ),
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(top: width * 0.04),
+                width: width * 0.8,
+                child: Text("${ayat[index].idn}"),
+              ),
+            ],
+          ),
         );
       },
     ),
