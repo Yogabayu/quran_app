@@ -1,16 +1,25 @@
-# quran_app
+# Flutter Project - myQuran
 
-A new Flutter project.
+"Flutter Project - myQuran" adalah sebuah proyek pengembangan aplikasi menggunakan framework Flutter. Aplikasi ini bertujuan untuk menyediakan akses mudah dan praktis bagi pengguna dalam membaca dan mengakses Al-Quran melalui perangkat mobile mereka.
 
-## Getting Started
+myQuran memiliki fitur-fitur seperti pencarian ayat, penandaan ayat favorit, dan penampilan tafsir untuk membantu pengguna dalam memahami dan mengkaji isi Al-Quran. Aplikasi ini juga dilengkapi dengan berbagai pilihan tampilan dan tema yang dapat disesuaikan sesuai dengan preferensi pengguna.
 
-This project is a starting point for a Flutter application.
+## Installation
 
-A few resources to get you started if this is your first Flutter project:
+Install my-project with git
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+  git clone https://github.com/Yogabayu/quran_app.git
+  git checkout dev
+  flutter pub get
+  flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Acknowledgements
+
+- [Tafsirq.com](https://tafsirq.com/hadits)
+- [Santri koding](https://santrikoding.com)
+
+## Screenshots
+
+<img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_01.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_02.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_03.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_04.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_05.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_06.png" width="150">
