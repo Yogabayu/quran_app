@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quran_app/screen/hadist/hadist.dart';
+import 'package:quran_app/screen/sholat/sholat.dart';
 import 'package:quran_app/screen/surah/allsurahsc.dart';
 import 'package:quran_app/screen/surah/detailsurah.dart';
 
@@ -224,7 +225,7 @@ Widget rightUp(width, height, context) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Memorize",
+              "Jadwal Sholat",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -236,10 +237,11 @@ Widget rightUp(width, height, context) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Hi, Tunggu Update selanjutnya"),
-                ));
+                Get.offAll(() => Sholat());
+                // ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //   content: Text("Hi, Tunggu Update selanjutnya"),
+                // ));
               },
               child: Text(
                 "Baca >",
