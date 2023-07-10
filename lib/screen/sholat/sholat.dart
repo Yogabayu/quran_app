@@ -3,11 +3,7 @@ import 'package:get/get.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:quran_app/controller/sholatController.dart';
 import 'package:quran_app/model/scheduleModel.dart';
-// import 'package:quran_app/model/cityModel.dart';
-// import 'package:quran_app/model/booksHadistModel.dart';
-// import 'package:quran_app/model/cityModel.dart';
 import 'package:quran_app/screen/dashboard.dart';
-// import 'package:quran_app/screen/hadist/detailhadist.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
 class Sholat extends StatefulWidget {
@@ -22,12 +18,12 @@ class _SholatState extends State<Sholat> {
   final SholatController _sholatController = Get.put(SholatController());
   late Future<List<dynamic>> futureCitis;
   late Future<Schedule_model> scheduleCitis;
-  final TextEditingController _searchController = TextEditingController();
   List<dynamic> citiesData = [];
   Schedule_model? scheduleData;
   String? idSelectedCity;
   DateTime selectedDate = DateTime.now();
   late int year = selectedDate.year, month = selectedDate.month;
+  bool isSuccess = false;
 
   @override
   void initState() {
@@ -43,7 +39,6 @@ class _SholatState extends State<Sholat> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
   }
 
@@ -187,6 +182,9 @@ class _SholatState extends State<Sholat> {
                 scheduleCitis = _sholatController.fetchSchedule(
                     idSelectedCity, year, month);
                 scheduleData = await scheduleCitis;
+                setState(() {
+                  isSuccess = true;
+                });
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber,
@@ -202,26 +200,102 @@ class _SholatState extends State<Sholat> {
                 ),
               ),
             ),
-            spacer(height),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: width * 0.03),
-              height: height * 0.52,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        children: [
-                          Text("tanggal"),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              ),
-            )
+            isSuccess
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: width * 0.03),
+                        height: height * 0.53,
+                        child: ListView.builder(
+                          itemCount: scheduleData!.data!.jadwal!.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: height * 0.15,
+                              margin: EdgeInsets.only(bottom: width * 0.04),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    scheduleData!.data!.jadwal![index].tanggal!,
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(32, 105, 95, 1),
+                                      fontSize: width * 0.04,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.03,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      colData(
+                                          width,
+                                          'imsak',
+                                          scheduleData!
+                                              .data!.jadwal![index].imsak!),
+                                      colData(
+                                          width,
+                                          'subuh',
+                                          scheduleData!
+                                              .data!.jadwal![index].subuh!),
+                                      colData(
+                                          width,
+                                          'terbit',
+                                          scheduleData!
+                                              .data!.jadwal![index].terbit!),
+                                      colData(
+                                          width,
+                                          'dhuha',
+                                          scheduleData!
+                                              .data!.jadwal![index].dhuha!),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.03,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      colData(
+                                          width,
+                                          'dzuhur',
+                                          scheduleData!
+                                              .data!.jadwal![index].dzuhur!),
+                                      colData(
+                                          width,
+                                          'ashar',
+                                          scheduleData!
+                                              .data!.jadwal![index].ashar!),
+                                      colData(
+                                          width,
+                                          'maghrib',
+                                          scheduleData!
+                                              .data!.jadwal![index].maghrib!),
+                                      colData(
+                                          width,
+                                          'isya',
+                                          scheduleData!
+                                              .data!.jadwal![index].isya!),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(" "),
           ],
         ),
       ),
@@ -229,65 +303,6 @@ class _SholatState extends State<Sholat> {
   }
 }
 
-// Text("tanggal"),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       Column(
-//                         children: [
-//                           Text("imsak"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("subuh"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("terbit"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("dhuha"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       Column(
-//                         children: [
-//                           Text("dzuhur"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("ashar"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("maghrib"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: [
-//                           Text("isya'"),
-//                           Text("zzzz"),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
 Widget spacer(height) {
   return SizedBox(
     height: height * 0.04,
@@ -370,6 +385,29 @@ Widget rowData(title, data, width, height) {
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 0, 0, 0),
           ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget colData(width, judul, data) {
+  return Column(
+    children: [
+      Text(
+        judul,
+        style: TextStyle(
+          color: Color.fromRGBO(32, 105, 95, 1),
+          fontSize: width * 0.035,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      Text(
+        data,
+        style: TextStyle(
+          color: Color.fromRGBO(0, 0, 0, 1),
+          fontSize: width * 0.035,
+          fontWeight: FontWeight.w700,
         ),
       ),
     ],
