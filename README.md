@@ -17,6 +17,7 @@ Install my-project with git
 
 - [Tafsirq.com](https://tafsirq.com/hadits)
 - [Santri koding](https://santrikoding.com)
+- [myQuran.com](https://myQuran.com)
 
 ## Screenshots
 
