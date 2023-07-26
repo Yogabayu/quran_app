@@ -221,6 +221,18 @@ Widget spacer(height) {
 Widget header(height, width, context) {
   return Container(
     margin: EdgeInsets.only(left: width * 0.03, right: width * 0.03),
+    decoration: BoxDecoration(
+      color: Color.fromARGB(255, 219, 235, 240),
+      borderRadius: BorderRadius.all(Radius.circular(width * 0.025)),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: Offset(0, 3), // Offset of the shadow
+        ),
+      ],
+    ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

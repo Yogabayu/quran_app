@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quran_app/screen/hadist/hadist.dart';
+import 'package:quran_app/screen/sholat/sholat.dart';
 import 'package:quran_app/screen/surah/allsurahsc.dart';
 import 'package:quran_app/screen/surah/detailsurah.dart';
+
+import 'pusatdata/pusatdata.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -78,10 +81,10 @@ Widget rightBottom(width, height, context) {
         children: [
           Container(
             margin: EdgeInsets.only(left: width * 0.02, top: width * 0.03),
-            child: Icon(
-              Icons.bookmark_add,
-              color: Colors.white,
-              size: width * 0.14,
+            child: Image.asset(
+              'assets/tajwid.png',
+              height: height * 0.05,
+              width: width * 0.2,
             ),
           ),
           SizedBox(
@@ -90,7 +93,7 @@ Widget rightBottom(width, height, context) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Bookmarks",
+              "Hadist",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -102,10 +105,7 @@ Widget rightBottom(width, height, context) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Hi, Tunggu Update selanjutnya"),
-                ));
+                Get.offAll(() => Hadist(), transition: Transition.fade);
               },
               child: Text(
                 "Baca >",
@@ -146,10 +146,10 @@ Widget leftBottom(width, height, context) {
         children: [
           Container(
             margin: EdgeInsets.only(left: width * 0.03),
-            child: Image.asset(
-              'assets/tajwid.png',
-              height: height * 0.05,
-              width: width * 0.2,
+            child: Icon(
+              Icons.donut_large_sharp,
+              color: Colors.amber,
+              size: width * 0.1,
             ),
           ),
           SizedBox(
@@ -158,7 +158,7 @@ Widget leftBottom(width, height, context) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Hadist",
+              "Pusat Data",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -170,12 +170,7 @@ Widget leftBottom(width, height, context) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                // ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   content: Text("Hi, Tunggu Update selanjutnya"),
-                // ));
-
-                Get.offAll(() => Hadist(), transition: Transition.fade);
+                Get.offAll(() => Pusatdata(), transition: Transition.fade);
               },
               child: Text(
                 "Baca >",
@@ -224,7 +219,7 @@ Widget rightUp(width, height, context) {
           Container(
             margin: EdgeInsets.only(left: width * 0.05),
             child: Text(
-              "Memorize",
+              "Jadwal Sholat",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -236,10 +231,7 @@ Widget rightUp(width, height, context) {
             child: TextButton(
               style: TextButton.styleFrom(padding: EdgeInsets.zero),
               onPressed: () {
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Hi, Tunggu Update selanjutnya"),
-                ));
+                Get.offAll(() => Sholat());
               },
               child: Text(
                 "Baca >",
@@ -397,13 +389,13 @@ Widget header(height, width, context) {
   return Container(
     margin: EdgeInsets.only(left: width * 0.03, right: width * 0.03),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ClipOval(
-          child: Icon(
-            Icons.menu,
-          ),
-        ),
+        // ClipOval(
+        //   child: Icon(
+        //     Icons.menu,
+        //   ),
+        // ),
         Text(
           'myQuran',
           style: TextStyle(
@@ -412,11 +404,11 @@ Widget header(height, width, context) {
             color: Color.fromRGBO(33, 139, 95, 1),
           ),
         ),
-        ClipOval(
-          child: Icon(
-            Icons.person,
-          ),
-        ),
+        // ClipOval(
+        //   child: Icon(
+        //     Icons.person,
+        //   ),
+        // ),
       ],
     ),
   );

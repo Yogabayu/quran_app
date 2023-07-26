@@ -14,6 +14,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: const <Locale>[
+      //   Locale('en'),
+      //   Locale('zh'),
+      //   Locale('fr'),
+      //   Locale('es'),
+      //   Locale('de'),
+      //   Locale('ru'),
+      //   Locale('ja'),
+      //   Locale('ar'),
+      //   Locale('fa'),
+      //   Locale('es'),
+      //   Locale('it'),
+      // ],
       title: 'Quran App',
       theme: ThemeData(
         primarySwatch: Colors.blue,

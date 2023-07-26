@@ -17,7 +17,8 @@ Install my-project with git
 
 - [Tafsirq.com](https://tafsirq.com/hadits)
 - [Santri koding](https://santrikoding.com)
+- [myQuran.com](https://myQuran.com)
 
 ## Screenshots
 
-<img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_01.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_02.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_03.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_04.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_05.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_06.png" width="150">
+<img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_01.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_02.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_03.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_04.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_05.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_06.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_07.png" width="150"> <img src="https://github.com/Yogabayu/quran_app/blob/dev/flutter_06.png" width="150">
